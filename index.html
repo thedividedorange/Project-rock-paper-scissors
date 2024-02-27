@@ -4,11 +4,34 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="stylesheet" type="text/css" href="./style.css">
+        <style>
+        @import url('https://fonts.cdnfonts.com/css/score-board');
+        </style>
         <title>Rock , Paper, Scissors</title>
     </head>
 
     <body>
-        <h1>Rock , Paper, Scissors</h1>
+        <div class="container">
+            <div id="scoreboard">
+                <div class="information">Information
+                </div>
+                <div class="players">
+                    <div class="playerLeft">Player One</div>
+                    <div class="playerCenter">Vs</div>
+                    <div class="playerRight">Player Two</div>
+                </div>
+                <div class="scores">
+                    <div class="playerLeftImg"></div>
+                    <div class="playerScores">
+                        <div class="leftScore">00</div>
+                        <div class="rightScore">26</div>
+                    </div>
+                    <div class="playerRightImg"></div>
+                </div>
+            </div>
+
+        </div>
 
 
         <script type="text/javascript" src="./script.js"></script>
