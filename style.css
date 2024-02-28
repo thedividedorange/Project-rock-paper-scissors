@@ -2,7 +2,6 @@
     font-family:Arial, Helvetica, sans-serif
 }
 
-
 html{
     font-size: 62.5%;
 }
@@ -18,7 +17,11 @@ div#scoreboard {
     flex-direction:column;
     justify-content:center;
     align-items:center;
-
+    background:url("./assets/hero-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height:25em;
 }
 
 div#scoreboard .information {
@@ -140,10 +143,49 @@ div#scoreboard .information {
 .playerScores .leftScore, .playerScores .rightScore {
     display:flex;
     font-family: 'Score Board', sans-serif;
-    font-size:2.6rem;
+    font-size: 3.8rem;
     color:#fff;
     border-color:color-mix(in srgb,  rgb(207, 207, 207) 60%, rgb(192, 192, 192) 30%);
     border-width: 2px; 
     border-style:ridge;
+
+}
+
+#main{
+    background-image: url("./assets/olympus-digital-camera.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    border-top: 0.2em ridge #cccccc;
+
+}
+
+#main .table {
+    display:flex;
+    border: 2px solid black;
+    width:60vw;
+    height:30vh;
+    margin:auto;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.table .leftPlayerChoices {
+    display:flex;
+    flex-direction:column;
+}
+
+
+.table .rightPlayerChoices {
+    display:flex;
+    flex-direction:column;
+}
+
+.disabled{
+    cursor: not-allowed;
+    pointer-events: none;
+    color: #c0c0c0;
+    background-color: #ffffff;
 
 }
