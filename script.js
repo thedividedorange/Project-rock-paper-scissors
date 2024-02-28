@@ -7,6 +7,8 @@ const rightButtons = document.querySelectorAll(".rightPlayerChoices button")
 const rightPlayerChoiceRock = document.querySelector(".rightPlayerChoices .rock")
 const rightPlayerChoicePaper = document.querySelector(".rightPlayerChoices .paper")
 const rightPlayerChoiceScissors = document.querySelector(".rightPlayerChoices .scissors")
+const gameOutput = document.querySelector(".gameOutput")
+
 const choices = ["rock", "paper", "scissors"]
 const pChoices = {
     leftPlayerChoiceRock: document.querySelector(".leftPlayerChoices .rock"),
@@ -19,9 +21,7 @@ let p2Score = 0
 
 function getComputerChoice(){
     let computerChoice = Math.floor(Math.random() * 3)
-
     return choices[computerChoice]
-
 }
 
 for (let choice in pChoices){
@@ -29,31 +29,38 @@ for (let choice in pChoices){
     let playerChoice = pChoices[choice]
 
     playerChoice.addEventListener("click", () => {
-
+        
         const computerChoice = getComputerChoice()
 
         if(playerChoice.classList.contains("rock")){
             if (computerChoice === "rock"){
-            } else if (computerChoice === "paper"){
-                     p2Score ++
-                    } else if (computerChoice === "scissors"){
+                gameOutput.textContent = `Aww, its a tie!`
+            }   else if (computerChoice === "paper"){
+                    gameOutput.textContent = `PAPER Beats ROCK! You LOOSE!`
+                    p2Score ++
+                }   else if (computerChoice === "scissors"){
+                        gameOutput.textContent = `ROCK Beats SCISSORS! You WIN!`    
                         p1Score ++
                     }    
         } else if(playerChoice.classList.contains("paper")){
             if (computerChoice === "rock"){
+                gameOutput.textContent = `PAPER Beats ROCK! You WIN!`    
                 p1Score ++
-            } else if (computerChoice === "paper"){
-
-                    } else if (computerChoice === "scissors"){
+            }   else if (computerChoice === "paper"){
+                    gameOutput.textContent = `Aww, its a tie!`
+                }   else if (computerChoice === "scissors"){
+                        gameOutput.textContent = `SCISSORS Beats PAPER! You LOOSE!`
                         p2Score ++
                     }    
         } else if(playerChoice.classList.contains("scissors")){
             if (computerChoice === "rock"){
+                gameOutput.textContent = `ROCK Beats SCISSORS! You LOOSE!` 
                 p2Score ++
-            } else if (computerChoice === "paper"){
-                     p1Score ++
-                    } else if (computerChoice === "scissors"){
-                        p1Score ++
+            }   else if (computerChoice === "paper"){
+                    gameOutput.textContent = `SCISSORS Beats PAPER! You WIN!`  
+                    p1Score ++
+                }   else if (computerChoice === "scissors"){
+                        gameOutput.textContent = `Aww, its a tie!`                        
                     }    
         }
         disableButtons(computerChoice)     
