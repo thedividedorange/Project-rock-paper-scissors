@@ -15,22 +15,38 @@
 
     <body>
         <div class="container">
-            <div id="scoreboard">
-                <div class="information">Information
+            <div id="myModal" class="modal"><span class="close">&times;</span>
+                <div class="modal-content">
+                    <div class="modal-header">Enter your Info below</div>
+                    <div class="modal-info">
+                        <label>Enter Your Name: </label><input id="name" name="playerName" type="text"></input>
+                        <label>Rounds to Play</label>
+                        <select id="totalRounds" name="totalRounds">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                        <button type="submit" id="submit-form">Start Game</button>
+                    </div>
                 </div>
+            </div> 
+            <div id="scoreboard">
+                <div class="information">Information</div>
                 <div class="players">
                     <div class="playerLeft">Player One</div>
                     <div class="playerCenter">Vs</div>
-                    <div class="playerRight">Player Two</div>
+                    <div class="playerRight">Computer</div>
                 </div>
                 <div class="scores">
                     <div class="playerLeftImg"></div>
                     <div class="playerScores">
-                        <div class="leftScore">00</div>
-                        <div class="rightScore">00</div>
+                        <div class="leftScore animate">00</div>
+                        <div class="rightScore animate">00</div>
                     </div>
                     <div class="playerRightImg"></div>
                 </div>
+                <div class="rounds">Total rounds</div>
             </div>
             <div id ="main">
                 <div class="table">
@@ -39,7 +55,8 @@
                             <button class="rock">Rock</button>
                         </div>
                         <div id="buttonGroup" class="button2">
-                            <button class="paper">Paper</button></div>
+                            <button class="paper">Paper</button>
+                        </div>
                         <div id="buttonGroup" class="button3">
                             <button class="scissors">Scissors</button>
                         </div>                
@@ -56,9 +73,13 @@
                             <button class="scissors">Scissors</button>
                         </div>
                     </div>
-                    </div>
                 </div>
-
+                
+                <div id="gameButtonsGroup">
+                    <button class="gameStart">Start Game</button>
+                    <button class="resetGame">Reset Board</button>
+                </div>
+                
             </div>
 
         </div>

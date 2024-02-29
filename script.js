@@ -2,24 +2,31 @@ const playerLeft = document.querySelector(".playerLeft")
 const playerRight = document.querySelector(".playerRight")
 const leftScore = document.querySelector(".leftScore")
 const rightScore = document.querySelector(".rightScore")
-const leftButtons = document.querySelectorAll(".leftPlayerChoices button")
-const rightButtons = document.querySelectorAll(".rightPlayerChoices button")
+const buttonGroup = document.querySelectorAll("#buttonGroup button")
 const rightPlayerChoiceRock = document.querySelector(".rightPlayerChoices .rock")
 const rightPlayerChoicePaper = document.querySelector(".rightPlayerChoices .paper")
 const rightPlayerChoiceScissors = document.querySelector(".rightPlayerChoices .scissors")
 const gameOutput = document.querySelector(".gameOutput")
-
+const submitFormButton = document.querySelector("#submit-form")
+const popupModal = document.querySelector(".modal")
+const playerName = document.querySelector("input#name")
+const totalRounds = document.querySelector("select#totalRounds")
+const rounds = document.querySelector(".rounds")
 const choices = ["rock", "paper", "scissors"]
+
 const pChoices = {
     leftPlayerChoiceRock: document.querySelector(".leftPlayerChoices .rock"),
     leftPlayerChoicePaper: document.querySelector(".leftPlayerChoices .paper"),
     leftPlayerChoiceScissors: document.querySelector(".leftPlayerChoices .scissors")
 }
 
+const clickAudio = new Audio("./assets/mixkit-game-click-1114.wav");
+
 let p1Score = 0
 let p2Score = 0
 
 function getComputerChoice(){
+
     let computerChoice = Math.floor(Math.random() * 3)
     return choices[computerChoice]
 }
@@ -29,22 +36,25 @@ for (let choice in pChoices){
     let playerChoice = pChoices[choice]
 
     playerChoice.addEventListener("click", () => {
-        
+
+        clickAudio.play();
+
         const computerChoice = getComputerChoice()
 
         if(playerChoice.classList.contains("rock")){
             if (computerChoice === "rock"){
-                gameOutput.textContent = `Aww, its a tie!`
+                gameOutput.textContent = `Aww, its a tie!`     
             }   else if (computerChoice === "paper"){
                     gameOutput.textContent = `PAPER Beats ROCK! You LOOSE!`
                     p2Score ++
                 }   else if (computerChoice === "scissors"){
-                        gameOutput.textContent = `ROCK Beats SCISSORS! You WIN!`    
+                        gameOutput.textContent = `ROCK Beats SCISSORS! You WIN!`  
                         p1Score ++
-                    }    
+                    }   
+
         } else if(playerChoice.classList.contains("paper")){
             if (computerChoice === "rock"){
-                gameOutput.textContent = `PAPER Beats ROCK! You WIN!`    
+                gameOutput.textContent = `PAPER Beats ROCK! You WIN!` 
                 p1Score ++
             }   else if (computerChoice === "paper"){
                     gameOutput.textContent = `Aww, its a tie!`
@@ -52,6 +62,7 @@ for (let choice in pChoices){
                         gameOutput.textContent = `SCISSORS Beats PAPER! You LOOSE!`
                         p2Score ++
                     }    
+
         } else if(playerChoice.classList.contains("scissors")){
             if (computerChoice === "rock"){
                 gameOutput.textContent = `ROCK Beats SCISSORS! You LOOSE!` 
@@ -60,121 +71,85 @@ for (let choice in pChoices){
                     gameOutput.textContent = `SCISSORS Beats PAPER! You WIN!`  
                     p1Score ++
                 }   else if (computerChoice === "scissors"){
-                        gameOutput.textContent = `Aww, its a tie!`                        
+                        gameOutput.textContent = `Aww, its a tie!`        
                     }    
         }
-        disableButtons(computerChoice)     
+
+        updateButtons(computerChoice) 
         updateScoreBoard()    
+        disableButtons()
     })
 }
 
-function disableButtons(computerSelection){
+function updateButtons(computerSelection){
+
     switch (computerSelection) {
         case 'rock':
-            rightPlayerChoiceRock.setAttribute("style", "border: 2px solid red;")
-            rightPlayerChoicePaper.removeAttribute("style", "border: 2px solid red;")
-            rightPlayerChoiceScissors.removeAttribute("style", "border: 2px solid red;")
+            rightPlayerChoiceRock.classList.add("borderHighlight")
+            rightPlayerChoicePaper.classList.remove("borderHighlight")
+            rightPlayerChoiceScissors.classList.remove("borderHighlight")
+
             break;
         case 'paper':
-            rightPlayerChoiceRock.removeAttribute("style", "border: 2px solid red;")
-            rightPlayerChoicePaper.setAttribute("style", "border: 2px solid red;")
-            rightPlayerChoiceScissors.removeAttribute("style", "border: 2px solid red;")
+            rightPlayerChoiceRock.classList.remove("borderHighlight")
+            rightPlayerChoicePaper.classList.add("borderHighlight")
+            rightPlayerChoiceScissors.classList.remove("borderHighlight")
+
             break;
         case 'scissors':
-            rightPlayerChoiceRock.removeAttribute("style", "border: 2px solid red;")
-            rightPlayerChoicePaper.removeAttribute("style", "border: 2px solid red;")
-            rightPlayerChoiceScissors.setAttribute("style", "border: 2px solid red;")
+            rightPlayerChoiceRock.classList.remove("borderHighlight")
+            rightPlayerChoicePaper.classList.remove("borderHighlight")
+            rightPlayerChoiceScissors.classList.add("borderHighlight")
+
             break;
         default:
             console.log("error, none selected")
     }
 
-    rightButtons.forEach((button) => {
-        if (!(button.classList.contains("disabled"))){           
-            button.classList.toggle("disabled")
-        }
-
-    }
-    )
+    setTimeout(() => {
+        buttonGroup.forEach((button) =>{
+            if(button.classList.contains("borderHighlight")){
+                button.classList.toggle("borderHighlight")
+            }
+        })
+    },1000)
 }
-
 
 function updateScoreBoard(){
 
     leftScore.textContent =  ("0" + p1Score).slice(-2)
     rightScore.textContent = ("0" + p2Score).slice(-2)
-
 }
 
+function disableButtons(){
 
+    buttonGroup.forEach((button) => {
+        if (!(button.classList.contains("disabled"))){     
+            button.classList.toggle("disabled")
+        }
 
+        setTimeout(function(){
+            if (button.classList.contains("disabled")){     
+                button.classList.remove("disabled")
+            }
+        }, 1000);
+    })
+}
 
+const submitForm = function () {
 
-// let userScore = 0;
-// let compScore = 0;
-// let totalScore = 0;
+    popupModal.classList.toggle("show")
 
-// const choices = ["rock", "paper", "scissors"]
+    submitFormButton.addEventListener("click", ()=>{
+        playerLeft.textContent = playerName.value
+        rounds.textContent = `ROUNDS: ${totalRounds.value}`
 
-// const getPlayerChoice = () => {
+        popupModal.classList.toggle("easeOut")
 
-//     let userChoice = prompt("Enter 'rock', 'paper' or 'scissors'").toLowerCase();
-    
-//     while(!userChoice || !(choices.includes(userChoice))) {
-//         userChoice = prompt("Invalid Choice Detected. Please type 'rock', 'paper' or 'scissors'")
-//     }
+        setTimeout(function(){ 
+            popupModal.classList.toggle("show")
+        }, 2200);
+    })
+}
 
-//     return userChoice
-// }
-
-// const getComputerChoice = () => {
-
-//     let compChoice = choices[Math.floor(Math.random() * 3)];
-    
-//     return compChoice;
-// }
-
-
-// const playRound = (userChoice, compChoice) => {
-
-//     if ((userChoice === "rock" && compChoice === "rock") || 
-//         (userChoice === "paper" && compChoice === "paper") ||
-//         (userChoice === "scissors" && compChoice === "scissors")){
-//             console.log(`${userChoice} and ${compChoice} are tied!`)
-//         }
-//     else if ((userChoice === "rock" && compChoice === "paper") || 
-//         (userChoice === "paper" && compChoice === "scissors") ||
-//         (userChoice === "scissors" && compChoice === "rock")){
-//             compScore++;
-//             console.log(`${compChoice} beats ${userChoice}. You loose!`)
-//         }
-//     else if ((userChoice === "rock" && compChoice === "scissors") || 
-//         (userChoice === "paper" && compChoice === "rock") ||
-//         (userChoice === "scissors" && compChoice === "paper")){
-//             userScore++;
-//             console.log(`${userChoice} beats ${compChoice}. You Win!`)
-//         }
-// }
-
-
-// const game = () => {
-
-//     while(userScore < 5 && compScore < 5){
-//         userChoice = getPlayerChoice();
-//         compChoice = getComputerChoice();
-
-//         playRound(userChoice, compChoice);
-
-//         totalScore = userScore+compScore;
-
-//         console.log(`User Score: ${userScore}\nComputer Score: ${compScore}\nTotal Score: ${totalScore}`)
-//     }
-
-//     if(userScore > compScore){
-//         console.log(`Congratulations, You Win!`)
-//     }
-//     else {console.log(`Sorry, The Computer won!`)}
-
-// }
-
-// game();
+window.addEventListener("load", submitForm)
