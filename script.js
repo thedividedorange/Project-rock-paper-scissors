@@ -2,7 +2,7 @@ const playerLeft = document.querySelector(".playerLeft")
 const playerRight = document.querySelector(".playerRight")
 const leftScore = document.querySelector(".leftScore")
 const rightScore = document.querySelector(".rightScore")
-const buttonGroup = document.querySelectorAll("#buttonGroup button")
+const buttonGroup = document.querySelectorAll("#buttonGroup > button")
 const rightPlayerChoiceRock = document.querySelector(".rightPlayerChoices .rock")
 const rightPlayerChoicePaper = document.querySelector(".rightPlayerChoices .paper")
 const rightPlayerChoiceScissors = document.querySelector(".rightPlayerChoices .scissors")
@@ -13,6 +13,8 @@ const playerName = document.querySelector("input#name")
 const totalRounds = document.querySelector("select#totalRounds")
 const rounds = document.querySelector(".rounds")
 const choices = ["rock", "paper", "scissors"]
+const resetGame = document.querySelector(".resetGame")
+const gameStart = document.querySelector(".gameStart")
 
 const pChoices = {
     leftPlayerChoiceRock: document.querySelector(".leftPlayerChoices .rock"),
@@ -35,13 +37,13 @@ for (let choice in pChoices){
 
     let playerChoice = pChoices[choice]
 
-    playerChoice.addEventListener("click", () => {
+    playerChoice.addEventListener("click", function() {
 
         clickAudio.play();
 
         const computerChoice = getComputerChoice()
 
-        if(playerChoice.classList.contains("rock")){
+        if(this.classList.contains("rock")){
             if (computerChoice === "rock"){
                 gameOutput.textContent = `Aww, its a tie!`     
             }   else if (computerChoice === "paper"){
@@ -52,7 +54,7 @@ for (let choice in pChoices){
                         p1Score ++
                     }   
 
-        } else if(playerChoice.classList.contains("paper")){
+        } else if(this.classList.contains("paper")){
             if (computerChoice === "rock"){
                 gameOutput.textContent = `PAPER Beats ROCK! You WIN!` 
                 p1Score ++
@@ -63,7 +65,7 @@ for (let choice in pChoices){
                         p2Score ++
                     }    
 
-        } else if(playerChoice.classList.contains("scissors")){
+        } else if(this.classList.contains("scissors")){
             if (computerChoice === "rock"){
                 gameOutput.textContent = `ROCK Beats SCISSORS! You LOOSE!` 
                 p2Score ++
@@ -74,7 +76,6 @@ for (let choice in pChoices){
                         gameOutput.textContent = `Aww, its a tie!`        
                     }    
         }
-
         updateButtons(computerChoice) 
         updateScoreBoard()    
         disableButtons()
@@ -113,6 +114,8 @@ function updateButtons(computerSelection){
             }
         })
     },1000)
+
+    shakeButton()
 }
 
 function updateScoreBoard(){
@@ -130,17 +133,65 @@ function disableButtons(){
 
         setTimeout(function(){
             if (button.classList.contains("disabled")){     
-                button.classList.remove("disabled")
+                button.classList.toggle("disabled")
             }
         }, 1000);
     })
 }
 
-const submitForm = function () {
+function reset(){
+
+    resetGame.addEventListener("click", function() {
+
+        ["disabled", "resetGame", "resetGameDisabled"].map((className) => {
+            this.classList.toggle(className)
+            this.classList.remove("shake")
+        })
+
+        gameOutput.textContent = `Resetting Game, Please wait...`
+
+        setTimeout(()=>{
+            leftScore.textContent = `00`
+            rightScore.textContent = `00`
+        },1500);
+
+        setTimeout(()=>{
+            p1Score = 0
+            p2Score = 0
+            gameOutput.textContent = `Board Reset Complete..`
+        },2200);
+
+        setTimeout(()=>{
+            ["disabled", "resetGame", "resetGameDisabled"].map((className) => {
+                this.classList.toggle(className)
+            })
+
+            gameOutput.textContent = `Play Game`
+        },2800);
+
+    })
+}
+reset()
+
+function shakeButton(){
+    
+    if(p1Score > 0 || p2Score > 0){
+        if(!(resetGame.classList.contains("shake")))
+        resetGame.classList.toggle("shake")
+    }
+}
+
+function submitForm() {
 
     popupModal.classList.toggle("show")
+    gameStart.classList.toggle("shake")
 
     submitFormButton.addEventListener("click", ()=>{
+
+        ["disabled", "gameStart", "startGameDisabled"].map((className) => {
+            gameStart.classList.toggle(className)
+        })
+
         playerLeft.textContent = playerName.value
         rounds.textContent = `ROUNDS: ${totalRounds.value}`
 
@@ -148,8 +199,33 @@ const submitForm = function () {
 
         setTimeout(function(){ 
             popupModal.classList.toggle("show")
+            popupModal.classList.toggle("easeOut")
+
+            buttonGroup.forEach((button) => {
+                if (button.classList.contains("disabled")){     
+                    button.classList.toggle("disabled")
+                }
+            })
         }, 2200);
     })
 }
 
-window.addEventListener("load", submitForm)
+function startGame() {
+
+    gameStart.addEventListener("click", function() {
+        submitForm()
+    })
+}
+startGame()
+
+
+window.addEventListener("load", ()=>{
+    gameStart.classList.toggle("shake")
+
+    buttonGroup.forEach((button) => {
+        if (!(button.classList.contains("disabled"))){     
+            button.classList.toggle("disabled")
+        }
+    })
+
+})

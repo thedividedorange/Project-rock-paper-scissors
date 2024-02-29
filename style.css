@@ -17,21 +17,14 @@ div#scoreboard {
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    background:url("./assets/hero-bg.png");
+    background:url("./assets/hero-bg.png") center no-repeat ;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     min-height:25em;
 }
 
 div#scoreboard .information {
-    border-width: 2px; 
-    border-style:ridge;
-    border-color:color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 40%);
-    border-top-left-radius: 3em;
-    border-top-right-radius: 3em;
-    border-bottom-left-radius: 0.7em;
-    border-bottom-right-radius: 0.7em;
+    border:2px ridge color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 40%);
+    border-radius: 3em 3em 0.7em 0.7em;
     background: radial-gradient(rgb(69, 25, 112), rgb(0, 0, 0));
     color:rgb(255, 255, 255);
     padding: 0.5em 2em;
@@ -43,19 +36,15 @@ div#scoreboard .information {
 .players{
     display:flex;
     flex-direction: row;
-
 }
 
 .players .playerLeft, .players .playerRight{
     display:flex;
     justify-content: center;
     align-items: center;
-    background-image: url("./assets/magicpattern-grid.png");
-    background-repeat: no-repeat;
+    background: url("./assets/magicpattern-grid.png") no-repeat;
     background-size:30em auto;
-    border-width: 2px; 
-    border-style:ridge;
-    border-color:color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 30%);
+    border: 2px ridge color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 30%);
     color:rgb(255, 255, 255);
     text-transform: uppercase;
     font-size:1.6rem;
@@ -68,13 +57,11 @@ div#scoreboard .information {
 }
 
 .players .playerLeft{
-    border-top-left-radius: 3em;
-    border-bottom-left-radius: 3em;
+    border-radius: 3em 0 0 3em;
 }
 
 .players .playerRight{
-    border-top-right-radius: 3em;
-    border-bottom-right-radius: 3em;
+    border-radius: 0 3em 3em 0;
 }
 .players .playerCenter{
     display:flex;
@@ -94,20 +81,18 @@ div#scoreboard .information {
     flex-direction:row;
     margin-top:0.5em;
 }
+
 .scores .playerLeftImg, .scores .playerRightImg {
     display:flex;
     background-repeat: no-repeat;
     background-size:30em auto;
     height:5em;
     width:10em;
-    border-bottom-left-radius:10em;
-    border-bottom-right-radius:10em;
-    border-color:color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 30%);
-    border-width: 2px; 
-    border-style:ridge;
+    border-radius: 0 0 10em 10em;
+    border: 2px ridge color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 30%);
     flex: 1 1 40%;
-
 }
+
 .scores .playerLeftImg{
     background-image: url("./assets/magicpattern-grid.png");
     transform: rotateY(38deg);
@@ -125,18 +110,12 @@ div#scoreboard .information {
     flex:1 1 60%;
     justify-content:center;
     align-items: center;
-    background-image: url("./assets/score-bg.png");
-    background-repeat: no-repeat;
+    background: url("./assets/score-bg.png") no-repeat;
     background-size:30em auto;
-    border-top-right-radius: 1em;
-    border-top-left-radius: 1em;
-    border-bottom-left-radius:4em;
-    border-bottom-right-radius:4em;
-    border-color:color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 30%);
-    border-width: 2px; 
-    border-style:ridge;
+    border:2px ridge color-mix(in srgb,  rgb(241, 17, 17) 60%, rgb(192, 192, 192) 30%);
+    border-radius:1em 1em 4em 4em;
     gap:1em;
-    padding: 1em 2em ;
+    padding:1em 2em;
 }
 
 .playerScores .leftScore, .playerScores .rightScore {
@@ -144,9 +123,7 @@ div#scoreboard .information {
     font-family: 'Score Board', sans-serif;
     font-size: 4.8rem;
     color: #fff;
-    border-color: color-mix(in srgb, rgb(207, 207, 207) 60%, rgb(192, 192, 192) 30%);
-    border-width: 2px;
-    border: 0.4px ridge;
+    border: 2px ridge color-mix(in srgb, rgb(207, 207, 207) 60%, rgb(192, 192, 192) 30%);
     background-color: #0c0c43;
     padding: 0.01em 0.06em;
 }
@@ -202,7 +179,6 @@ div#buttonGroup {
     border-radius: 12px;
     border: none;
     padding: 0;
-    cursor: pointer;
     outline-offset: 4px;
     margin: auto;
 }
@@ -232,34 +208,39 @@ div#buttonGroup {
 
 .rock {
     background: radial-gradient(#c97937, transparent);
-    color: white;
-    border: 0.4px solid #2f2f2fee;
+    color: rgb(255, 255, 255);
+    border: 0.4px solid rgba(47, 47, 47, 0.933);
 }
 
 .paper {
     background: radial-gradient(#aca39c, transparent);
-    color: white;
-    border: 0.4px solid #2f2f2fee;
+    color: rgb(255, 255, 255);
+    border: 0.4px solid rgba(47, 47, 47, 0.933);
 }
 
 .scissors {
     background: radial-gradient(#e82d2d, transparent);
-    color: white;
-    border: 0.4px solid #2f2f2fee;
+    color: rgb(255, 255, 255);
+    border: 0.4px solid rgba(47, 47, 47, 0.933);
 }
 
 span.gameOutput {
     text-align: center;
     display: flex;
     flex-wrap: wrap;
-    color: honeydew;
+    color: rgb(240, 255, 240);
     font-size: 1.6rem;
 }
 
-#gameButtonsGroup{
-    display:flex;
+#gameButtonsGroup {
+    display: flex;
     justify-content: center;
-    gap:0.4em;
+    gap: 0.4em;
+    background: #7f0a0afa;
+    width: 20em;
+    margin: auto;
+    padding: 0.4em;
+    box-shadow: 1px 5px 7px 2px #000000b5;
 }
 
 #gameButtonsGroup button{
@@ -301,7 +282,6 @@ span.gameOutput {
 
 #gameButtonsGroup button:after {
     background-clip:padding-box;
-
     border: solid transparent;
     border-radius: 16px;
     border-width: 0 0 4px;
@@ -390,7 +370,7 @@ button#submit-form {
 
 button#submit-form:active{
     transform: translateY(2px);
-    transition: transform 0.3s ease
+    transition: transform 0.3s ease;
 }
 
 .close {
@@ -408,10 +388,17 @@ button#submit-form:active{
 }
 
 .disabled{
-    cursor: not-allowed;
-    pointer-events: none;
+    cursor: not-allowed!important;
+    pointer-events: none!important;
     color: #c0c0c0;
-    background-color: #ffffff;
+    background-color: #ffffff52!important;
+}
+
+.resetGameDisabled{
+    background-color: rgba(250, 33, 33, 0.547)!important;
+}
+.startGameDisabled{
+    background-color: rgba(59, 231, 91, 0.547)!important;
 }
 
 .show{
@@ -422,3 +409,21 @@ button#submit-form:active{
     opacity: 0;
     transition: ease opacity 3s;
 }
+
+.shake{
+    animation: shake 3s alternate infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
