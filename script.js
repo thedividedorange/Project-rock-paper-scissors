@@ -28,14 +28,13 @@ let p1Score = 0
 let p2Score = 0
 
 function getComputerChoice(){
-
+    
     let computerChoice = Math.floor(Math.random() * 3)
-    console.log(computerChoice)
     return choices[computerChoice]
-
 }
 
 function fetchPlayerChoice(){
+
     for (let choice in pChoices){
 
     let playerChoice = pChoices[choice]
