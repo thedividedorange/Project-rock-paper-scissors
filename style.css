@@ -320,8 +320,12 @@ span.gameOutput {
     background: none;
 }
 
-.borderHighlight{
-    border: 2px solid red;
+.borderHighlightRed{
+    border: 2px solid rgb(255, 0, 0);
+}
+
+.borderHighlightGreen{
+    border: 2px solid rgb(29, 255, 33);
 }
 
 .modal {
@@ -392,6 +396,11 @@ button#submit-form:active{
     pointer-events: none!important;
     color: #c0c0c0;
     background-color: #ffffff52!important;
+}
+
+.disabled:hover{
+    scale: revert!important;
+    transition: revert!important;
 }
 
 .resetGameDisabled{

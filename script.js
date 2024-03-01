@@ -30,185 +30,146 @@ let p2Score = 0
 function getComputerChoice(){
 
     let computerChoice = Math.floor(Math.random() * 3)
+    console.log(computerChoice)
     return choices[computerChoice]
+
 }
 
-for (let choice in pChoices){
+function fetchPlayerChoice(){
+    for (let choice in pChoices){
 
     let playerChoice = pChoices[choice]
 
-    playerChoice.addEventListener("click", function() {
-
-        clickAudio.play();
-
-        const computerChoice = getComputerChoice()
-
-        if(this.classList.contains("rock")){
-            if (computerChoice === "rock"){
-                gameOutput.textContent = `Aww, its a tie!`     
-            }   else if (computerChoice === "paper"){
-                    gameOutput.textContent = `PAPER Beats ROCK! You LOOSE!`
-                    p2Score ++
-                }   else if (computerChoice === "scissors"){
-                        gameOutput.textContent = `ROCK Beats SCISSORS! You WIN!`  
-                        p1Score ++
-                    }   
-
-        } else if(this.classList.contains("paper")){
-            if (computerChoice === "rock"){
-                gameOutput.textContent = `PAPER Beats ROCK! You WIN!` 
-                p1Score ++
-            }   else if (computerChoice === "paper"){
-                    gameOutput.textContent = `Aww, its a tie!`
-                }   else if (computerChoice === "scissors"){
-                        gameOutput.textContent = `SCISSORS Beats PAPER! You LOOSE!`
-                        p2Score ++
-                    }    
-
-        } else if(this.classList.contains("scissors")){
-            if (computerChoice === "rock"){
-                gameOutput.textContent = `ROCK Beats SCISSORS! You LOOSE!` 
-                p2Score ++
-            }   else if (computerChoice === "paper"){
-                    gameOutput.textContent = `SCISSORS Beats PAPER! You WIN!`  
-                    p1Score ++
-                }   else if (computerChoice === "scissors"){
-                        gameOutput.textContent = `Aww, its a tie!`        
-                    }    
-        }
-        updateButtons(computerChoice) 
-        updateScoreBoard()    
-        disableButtons()
-    })
+    playerChoice.addEventListener("click", playGame)
+    }
 }
 
-function updateButtons(computerSelection){
+function playGame(playerChoice, computerChoice){
 
-    switch (computerSelection) {
-        case 'rock':
-            rightPlayerChoiceRock.classList.add("borderHighlight")
-            rightPlayerChoicePaper.classList.remove("borderHighlight")
-            rightPlayerChoiceScissors.classList.remove("borderHighlight")
+    computerChoice = getComputerChoice()
+    playerChoice = this.textContent.toLowerCase()
 
-            break;
-        case 'paper':
-            rightPlayerChoiceRock.classList.remove("borderHighlight")
-            rightPlayerChoicePaper.classList.add("borderHighlight")
-            rightPlayerChoiceScissors.classList.remove("borderHighlight")
+    clickAudio.play();
 
-            break;
-        case 'scissors':
-            rightPlayerChoiceRock.classList.remove("borderHighlight")
-            rightPlayerChoicePaper.classList.remove("borderHighlight")
-            rightPlayerChoiceScissors.classList.add("borderHighlight")
+    if((playerChoice === choices[0] && computerChoice === choices[0]) || 
+        (playerChoice === choices[1] && computerChoice === choices[1]) ||
+        (playerChoice === choices[2] && computerChoice === choices[2])){
+            updateGUI(playerChoice, computerChoice, 'tie')
+    }   else if((playerChoice === choices[0] && computerChoice === choices[2]) || 
+                (playerChoice === choices[1] && computerChoice === choices[0]) ||
+                (playerChoice === choices[2] && computerChoice === choices[1])){
+                    p1Score ++
+                    updateGUI(playerChoice, computerChoice, 'win')
+        }   else if((playerChoice === choices[0] && computerChoice === choices[1]) || 
+                    (playerChoice === choices[1] && computerChoice === choices[2]) ||
+                    (playerChoice === choices[2] && computerChoice === choices[0])){
+                        p2Score ++
+                        updateGUI(playerChoice, computerChoice, 'loss')
+            }                  
+}
 
-            break;
-        default:
-            console.log("error, none selected")
-    }
+function updateGUI(playerChoice, computerChoice, outcome){
 
-    setTimeout(() => {
-        buttonGroup.forEach((button) =>{
-            if(button.classList.contains("borderHighlight")){
-                button.classList.toggle("borderHighlight")
-            }
-        })
-    },1000)
+    if(playerChoice === computerChoice){
+        gameOutput.textContent = `You Choose ${playerChoice} , Computer Choose ${computerChoice}, Its a tie!`
+    }   else if (playerChoice !== computerChoice){
+                if (outcome ==='win'){
+                    gameOutput.textContent = `${playerChoice} Beats ${computerChoice}, You Won!`
+                }
+                else if (outcome ==='loss'){
+                    gameOutput.textContent = `You Choose ${playerChoice} , Computer Choose ${computerChoice}, You Loose!`
+                }
+         }
 
-    shakeButton()
+    updateScoreBoard()  
+    updateButtonsBorder(playerChoice, computerChoice)
+    disableGameButtons()
+    resetShakeButton()
 }
 
 function updateScoreBoard(){
-
     leftScore.textContent =  ("0" + p1Score).slice(-2)
     rightScore.textContent = ("0" + p2Score).slice(-2)
 }
 
-function disableButtons(){
+function updateButtonsBorder(playerChoice, computerChoice){
+    
+    switch (playerChoice){
+        case 'rock': pChoices.leftPlayerChoiceRock.classList.toggle("borderHighlightGreen")
+            break;
+        case 'paper': pChoices.leftPlayerChoicePaper.classList.toggle("borderHighlightGreen")
+            break;
+        case 'scissors': pChoices.leftPlayerChoiceScissors.classList.toggle("borderHighlightGreen")
+    }
+    switch (computerChoice){
+        case 'rock': rightPlayerChoiceRock.classList.toggle("borderHighlightRed")
+        break;
+        case 'paper': rightPlayerChoicePaper.classList.toggle("borderHighlightRed")
+        break;
+        case 'scissors': rightPlayerChoiceScissors.classList.toggle("borderHighlightRed")
+    }
+
+    removeButtonsBorder()
+}
+
+function removeButtonsBorder(){
+
+    setTimeout(() => {
+        buttonGroup.forEach((button) =>{
+            if (button.classList.contains("borderHighlightRed")){
+                button.classList.toggle("borderHighlightRed")
+            }
+            if (button.classList.contains("borderHighlightGreen")){
+                button.classList.toggle("borderHighlightGreen")
+            }
+        })
+    },2500)
+}
+
+function disableGameButtons(){
 
     buttonGroup.forEach((button) => {
         if (!(button.classList.contains("disabled"))){     
             button.classList.toggle("disabled")
         }
+    })
 
+    enableGameButtons()
+}
+
+function enableGameButtons(){
+
+    buttonGroup.forEach((button) => {
         setTimeout(function(){
             if (button.classList.contains("disabled")){     
                 button.classList.toggle("disabled")
             }
-        }, 1000);
+        }, 2500);
     })
 }
 
-function reset(){
+resetGame.addEventListener("click", function() {
 
-    resetGame.addEventListener("click", function() {
+    toggleClasses(this, "disabled", "resetGame", "resetGameDisabled")
+    shake(this)  
+    gameOutput.textContent = `Resetting Game, Please wait...`
 
-        ["disabled", "resetGame", "resetGameDisabled"].map((className) => {
-            this.classList.toggle(className)
-            this.classList.remove("shake")
-        })
+    setTimeout(()=>{
+        leftScore.textContent = `00`
+        rightScore.textContent = `00`
+    },1500);
 
-        gameOutput.textContent = `Resetting Game, Please wait...`
+    setTimeout(()=>{
+        p1Score = 0
+        p2Score = 0
+        gameOutput.textContent = `Board Reset Complete..`
+    },2200);
 
-        setTimeout(()=>{
-            leftScore.textContent = `00`
-            rightScore.textContent = `00`
-        },1500);
-
-        setTimeout(()=>{
-            p1Score = 0
-            p2Score = 0
-            gameOutput.textContent = `Board Reset Complete..`
-        },2200);
-
-        setTimeout(()=>{
-            ["disabled", "resetGame", "resetGameDisabled"].map((className) => {
-                this.classList.toggle(className)
-            })
-
-            gameOutput.textContent = `Play Game`
-        },2800);
-
-    })
-}
-reset()
-
-function shakeButton(){
-    
-    if(p1Score > 0 || p2Score > 0){
-        if(!(resetGame.classList.contains("shake")))
-        resetGame.classList.toggle("shake")
-    }
-}
-
-function submitForm() {
-
-    popupModal.classList.toggle("show")
-    gameStart.classList.toggle("shake")
-
-    submitFormButton.addEventListener("click", ()=>{
-
-        ["disabled", "gameStart", "startGameDisabled"].map((className) => {
-            gameStart.classList.toggle(className)
-        })
-
-        playerLeft.textContent = playerName.value
-        rounds.textContent = `ROUNDS: ${totalRounds.value}`
-
-        popupModal.classList.toggle("easeOut")
-
-        setTimeout(function(){ 
-            popupModal.classList.toggle("show")
-            popupModal.classList.toggle("easeOut")
-
-            buttonGroup.forEach((button) => {
-                if (button.classList.contains("disabled")){     
-                    button.classList.toggle("disabled")
-                }
-            })
-        }, 2200);
-    })
-}
+    setTimeout(()=>{
+        toggleClasses(this, "disabled", "resetGame", "resetGameDisabled")       
+        gameOutput.textContent = `Play Game`
+    },2800);
+})
 
 function startGame() {
 
@@ -216,11 +177,44 @@ function startGame() {
         submitForm()
     })
 }
-startGame()
 
+function submitForm() {
+
+    show(popupModal)
+    shake(gameStart)
+
+    submitFormButton.addEventListener("click", function(submitForm){
+
+        toggleClasses(gameStart, "disabled", "gameStart", "startGameDisabled")
+        playerLeft.textContent = playerName.value
+        rounds.textContent = `ROUNDS: ${totalRounds.value}`
+
+        setTimeout(function(){ 
+            if(!(popupModal.classList.contains("easeOut"))){
+                easeOut(popupModal)
+            }
+        }, 100);
+
+        setTimeout(function(){ 
+            hide(popupModal)
+            buttonGroup.forEach((button) => {
+                if (button.classList.contains("disabled")){     
+                    button.classList.toggle("disabled")
+                }
+            })
+        }, 2200);
+
+        setTimeout(function(){ 
+            if(popupModal.classList.contains("easeOut")){
+            easeOut(popupModal) //remove Ease out
+            }
+        }, 3000);
+    })
+
+    fetchPlayerChoice()
+}
 
 window.addEventListener("load", ()=>{
-    gameStart.classList.toggle("shake")
 
     buttonGroup.forEach((button) => {
         if (!(button.classList.contains("disabled"))){     
@@ -228,4 +222,40 @@ window.addEventListener("load", ()=>{
         }
     })
 
+    shake(gameStart)
+    startGame()
 })
+
+function toggleClasses(elementName,...classNames){
+    classNames.map((className) => {
+        elementName.classList.toggle(className)
+    })
+}
+
+function resetShakeButton(){
+    
+    if(p1Score > 0 || p2Score > 0){
+        if(!(resetGame.classList.contains("shake")))
+        resetGame.classList.toggle("shake")
+    }
+}
+
+function shake(element){
+    element.classList.toggle("shake")
+}
+
+function ease(element){
+    element.classList.toggle("ease")
+}
+
+function easeOut(element){
+    element.classList.toggle("easeOut")
+}
+
+function show(element){
+    element.classList.toggle("show")
+}
+
+function hide(element){
+    element.classList.remove("show")
+}
