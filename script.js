@@ -12,10 +12,9 @@ const popupModal = document.querySelector(".modal")
 const playerName = document.querySelector("input#name")
 const totalRounds = document.querySelector("select#totalRounds")
 const rounds = document.querySelector(".rounds")
-const choices = ["rock", "paper", "scissors"]
 const resetGame = document.querySelector(".resetGame")
 const gameStart = document.querySelector(".gameStart")
-
+const choices = ["rock", "paper", "scissors"]
 const pChoices = {
     leftPlayerChoiceRock: document.querySelector(".leftPlayerChoices .rock"),
     leftPlayerChoicePaper: document.querySelector(".leftPlayerChoices .paper"),
@@ -50,20 +49,16 @@ function playGame(playerChoice, computerChoice){
 
     clickAudio.play();
 
-    if((playerChoice === choices[0] && computerChoice === choices[0]) || 
-        (playerChoice === choices[1] && computerChoice === choices[1]) ||
-        (playerChoice === choices[2] && computerChoice === choices[2])){
+    if(playerChoice === computerChoice){
             updateGUI(playerChoice, computerChoice, 'tie')
     }   else if((playerChoice === choices[0] && computerChoice === choices[2]) || 
                 (playerChoice === choices[1] && computerChoice === choices[0]) ||
                 (playerChoice === choices[2] && computerChoice === choices[1])){
                     p1Score ++
                     updateGUI(playerChoice, computerChoice, 'win')
-        }   else if((playerChoice === choices[0] && computerChoice === choices[1]) || 
-                    (playerChoice === choices[1] && computerChoice === choices[2]) ||
-                    (playerChoice === choices[2] && computerChoice === choices[0])){
-                        p2Score ++
-                        updateGUI(playerChoice, computerChoice, 'loss')
+        }
+    else {  p2Score ++
+            updateGUI(playerChoice, computerChoice, 'loss')
             }                  
 }
 
@@ -83,7 +78,9 @@ function updateGUI(playerChoice, computerChoice, outcome){
     updateScoreBoard()  
     updateButtonsBorder(playerChoice, computerChoice)
     disableGameButtons()
+    enableGameButtons()
     resetShakeButton()
+    determineWinner()
 }
 
 function updateScoreBoard(){
@@ -115,12 +112,8 @@ function removeButtonsBorder(){
 
     setTimeout(() => {
         buttonGroup.forEach((button) =>{
-            if (button.classList.contains("borderHighlightRed")){
-                button.classList.toggle("borderHighlightRed")
-            }
-            if (button.classList.contains("borderHighlightGreen")){
-                button.classList.toggle("borderHighlightGreen")
-            }
+            toggleClasses(button,undefined,"borderHighlightRed")
+            toggleClasses(button,undefined,"borderHighlightGreen")
         })
     },2500)
 }
@@ -128,29 +121,50 @@ function removeButtonsBorder(){
 function disableGameButtons(){
 
     buttonGroup.forEach((button) => {
-        if (!(button.classList.contains("disabled"))){     
-            button.classList.toggle("disabled")
-        }
+        toggleClasses(button,"!","disabled")
     })
-
-    enableGameButtons()
 }
 
 function enableGameButtons(){
 
     buttonGroup.forEach((button) => {
         setTimeout(function(){
-            if (button.classList.contains("disabled")){     
-                button.classList.toggle("disabled")
-            }
+            toggleClasses(button,undefined,"disabled")
         }, 2500);
     })
 }
 
+function determineWinner() {
+
+    if(p1Score + p2Score === parseInt(totalRounds.value)){
+        setTimeout(function(){
+            disableGameButtons()
+        }, 2515);
+        if (p1Score === p2Score) {
+            gameOutput.textContent= "Its a tie"
+            gameOutput.setAttribute("style", "color: yellow")
+        } else if (p1Score > p2Score) {
+            gameOutput.textContent= `${playerLeft.textContent} wins!;`
+            gameOutput.setAttribute("style", "color: green")
+
+        } else {
+            gameOutput.textContent= `${playerRight.textContent} wins!`;
+            gameOutput.setAttribute("style", "color: red")
+
+        }
+    }
+}
+
 resetGame.addEventListener("click", function() {
 
-    toggleClasses(this, "disabled", "resetGame", "resetGameDisabled")
-    shake(this)  
+    disableGameButtons()
+    toggleClasses(this, "!", "disabled", "resetGame", "resetGameDisabled")
+
+    if(!(this.classList.contains("shake"))){
+        shake(this)
+    }
+    
+    gameOutput.setAttribute("style", "color: white")
     gameOutput.textContent = `Resetting Game, Please wait...`
 
     setTimeout(()=>{
@@ -165,7 +179,8 @@ resetGame.addEventListener("click", function() {
     },2200);
 
     setTimeout(()=>{
-        toggleClasses(this, "disabled", "resetGame", "resetGameDisabled")       
+        enableGameButtons()
+        toggleClasses(this, undefined, "disabled", "resetGameDisabled", shake(this))       
         gameOutput.textContent = `Play Game`
     },2800);
 })
@@ -182,69 +197,69 @@ function submitForm() {
     show(popupModal)
     shake(gameStart)
 
-    submitFormButton.addEventListener("click", function(submitForm){
+    submitFormButton.addEventListener("click", ()=> {
 
-        toggleClasses(gameStart, "disabled", "gameStart", "startGameDisabled")
+        toggleClasses(gameStart, "!", "disabled", "startGameDisabled")
         playerLeft.textContent = playerName.value
         rounds.textContent = `ROUNDS: ${totalRounds.value}`
 
-        setTimeout(function(){ 
+        setTimeout(()=>{ 
             if(!(popupModal.classList.contains("easeOut"))){
                 easeOut(popupModal)
             }
         }, 100);
 
-        setTimeout(function(){ 
+        setTimeout(()=>{ 
             hide(popupModal)
             buttonGroup.forEach((button) => {
-                if (button.classList.contains("disabled")){     
-                    button.classList.toggle("disabled")
-                }
+                toggleClasses(button,undefined,"disabled")
             })
         }, 2200);
 
-        setTimeout(function(){ 
+        setTimeout(()=>{ 
             if(popupModal.classList.contains("easeOut")){
-            easeOut(popupModal) //remove Ease out
+            easeOut(popupModal)
             }
         }, 3000);
     })
 
     fetchPlayerChoice()
+    return totalRounds.value
 }
 
 window.addEventListener("load", ()=>{
 
     buttonGroup.forEach((button) => {
-        if (!(button.classList.contains("disabled"))){     
-            button.classList.toggle("disabled")
-        }
+        toggleClasses(button,"!","disabled")
     })
 
     shake(gameStart)
     startGame()
 })
 
-function toggleClasses(elementName,...classNames){
+function toggleClasses(elementName,operator,...classNames){
+
     classNames.map((className) => {
-        elementName.classList.toggle(className)
+        if(operator === undefined){
+            if (elementName.classList.contains(className)){
+                elementName.classList.toggle(className)
+            }
+        }   else if(operator === "!"){
+                    if (!(elementName.classList.contains(className))){
+                        elementName.classList.toggle(className)
+            }
+        }
     })
 }
 
-function resetShakeButton(){
-    
+function resetShakeButton(){  
     if(p1Score > 0 || p2Score > 0){
-        if(!(resetGame.classList.contains("shake")))
-        resetGame.classList.toggle("shake")
+        toggleClasses(resetGame,"!","shake")
     }
 }
 
 function shake(element){
     element.classList.toggle("shake")
-}
-
-function ease(element){
-    element.classList.toggle("ease")
 }
 
 function easeOut(element){
@@ -259,14 +274,7 @@ function hide(element){
     element.classList.remove("show")
 }
 
-
-
-
-
-
-
-
-
+//------------------
 // let userScore = 0;
 // let compScore = 0;
 // let totalScore = 0;
