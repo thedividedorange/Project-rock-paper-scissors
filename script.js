@@ -87,8 +87,6 @@ function updateGUI(playerChoice, computerChoice, outcome){
     resetShakeButton()
 }
 
-
-
 function updateScoreBoard(){
     leftScore.textContent =  ("0" + p1Score).slice(-2)
     rightScore.textContent = ("0" + p2Score).slice(-2)
@@ -157,7 +155,6 @@ function determineWinner() {
             }
     }
 }
- 
 
 resetGame.addEventListener("click", function() {
 
