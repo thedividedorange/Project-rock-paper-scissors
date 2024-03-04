@@ -27,61 +27,67 @@ let p1Score = 0
 let p2Score = 0
 
 function getComputerChoice(){
-
     let computerChoice = Math.floor(Math.random() * 3)
     return choices[computerChoice]
 }
 
 function fetchPlayerChoice(){
-
     for (let choice in pChoices){
-
-    let playerChoice = pChoices[choice]
-
-    playerChoice.addEventListener("click", playGame)
+        let playerChoice = pChoices[choice]
+        playerChoice.addEventListener("click", playGame)
     }
 }
 
-function playGame(playerChoice, computerChoice){
+function playGame(){
 
-    computerChoice = getComputerChoice()
-    playerChoice = this.textContent.toLowerCase()
+    let computerChoice = getComputerChoice()
+    let playerChoice = this.textContent.toLowerCase()
 
     clickAudio.play();
 
+    let [playChoice, compChoice, outcome] = playRPS(playerChoice,computerChoice)
+    updateGUI(playChoice, compChoice, outcome)
+    updateButtonsBorder(playerChoice, computerChoice)
+    determineWinner()                
+}
+
+function playRPS(playerChoice, computerChoice){
+
     if(playerChoice === computerChoice){
-            updateGUI(playerChoice, computerChoice, 'tie')
-    }   else if((playerChoice === choices[0] && computerChoice === choices[2]) || 
+        return [playerChoice, computerChoice, 'tie']
+    } 
+        else if((playerChoice === choices[0] && computerChoice === choices[2]) || 
                 (playerChoice === choices[1] && computerChoice === choices[0]) ||
                 (playerChoice === choices[2] && computerChoice === choices[1])){
                     p1Score ++
-                    updateGUI(playerChoice, computerChoice, 'win')
-        }
-    else {  p2Score ++
-            updateGUI(playerChoice, computerChoice, 'loss')
-            }                  
+                    return [playerChoice, computerChoice, 'win']
+            }
+    else{p2Score ++
+        return [playerChoice, computerChoice, 'loss']
+    }                   
 }
 
 function updateGUI(playerChoice, computerChoice, outcome){
 
     if(playerChoice === computerChoice){
         gameOutput.textContent = `You Choose ${playerChoice} , Computer Choose ${computerChoice}, Its a tie!`
-    }   else if (playerChoice !== computerChoice){
+    }   
+        else if (playerChoice !== computerChoice){
                 if (outcome ==='win'){
                     gameOutput.textContent = `${playerChoice} Beats ${computerChoice}, You Won!`
                 }
-                else if (outcome ==='loss'){
-                    gameOutput.textContent = `You Choose ${playerChoice} , Computer Choose ${computerChoice}, You Loose!`
-                }
-         }
+                    else if (outcome ==='loss'){
+                            gameOutput.textContent = `You Choose ${playerChoice} , Computer Choose ${computerChoice}, You Loose!`
+                        }
+            }
 
-    updateScoreBoard()  
-    updateButtonsBorder(playerChoice, computerChoice)
+    updateScoreBoard()
     disableGameButtons()
     enableGameButtons()
     resetShakeButton()
-    determineWinner()
 }
+
+
 
 function updateScoreBoard(){
     leftScore.textContent =  ("0" + p1Score).slice(-2)
@@ -109,7 +115,6 @@ function updateButtonsBorder(playerChoice, computerChoice){
 }
 
 function removeButtonsBorder(){
-
     setTimeout(() => {
         buttonGroup.forEach((button) =>{
             toggleClasses(button,undefined,"borderHighlightRed")
@@ -119,14 +124,12 @@ function removeButtonsBorder(){
 }
 
 function disableGameButtons(){
-
     buttonGroup.forEach((button) => {
         toggleClasses(button,"!","disabled")
     })
 }
 
 function enableGameButtons(){
-
     buttonGroup.forEach((button) => {
         setTimeout(function(){
             toggleClasses(button,undefined,"disabled")
@@ -140,20 +143,21 @@ function determineWinner() {
         setTimeout(function(){
             disableGameButtons()
         }, 2515);
+    
         if (p1Score === p2Score) {
             gameOutput.textContent= "Its a tie"
             gameOutput.setAttribute("style", "color: yellow")
-        } else if (p1Score > p2Score) {
-            gameOutput.textContent= `${playerLeft.textContent} wins!;`
-            gameOutput.setAttribute("style", "color: green")
-
-        } else {
-            gameOutput.textContent= `${playerRight.textContent} wins!`;
-            gameOutput.setAttribute("style", "color: red")
-
-        }
+        } 
+            else if (p1Score > p2Score) {
+                    gameOutput.textContent= `${playerLeft.textContent} wins!;`
+                    gameOutput.setAttribute("style", "color: green")
+                } 
+        else {gameOutput.textContent= `${playerRight.textContent} wins!`;
+                gameOutput.setAttribute("style", "color: red")
+            }
     }
 }
+ 
 
 resetGame.addEventListener("click", function() {
 
@@ -171,13 +175,11 @@ resetGame.addEventListener("click", function() {
         leftScore.textContent = `00`
         rightScore.textContent = `00`
     },1500);
-
     setTimeout(()=>{
         p1Score = 0
         p2Score = 0
         gameOutput.textContent = `Board Reset Complete..`
     },2200);
-
     setTimeout(()=>{
         enableGameButtons()
         toggleClasses(this, undefined, "disabled", "resetGameDisabled", shake(this))       
@@ -186,7 +188,6 @@ resetGame.addEventListener("click", function() {
 })
 
 function startGame() {
-
     gameStart.addEventListener("click", function() {
         submitForm()
     })
@@ -208,27 +209,23 @@ function submitForm() {
                 easeOut(popupModal)
             }
         }, 100);
-
         setTimeout(()=>{ 
             hide(popupModal)
             buttonGroup.forEach((button) => {
                 toggleClasses(button,undefined,"disabled")
             })
         }, 2200);
-
         setTimeout(()=>{ 
             if(popupModal.classList.contains("easeOut")){
-            easeOut(popupModal)
+                easeOut(popupModal)
             }
         }, 3000);
     })
 
     fetchPlayerChoice()
-    return totalRounds.value
 }
 
 window.addEventListener("load", ()=>{
-
     buttonGroup.forEach((button) => {
         toggleClasses(button,"!","disabled")
     })
@@ -238,17 +235,16 @@ window.addEventListener("load", ()=>{
 })
 
 function toggleClasses(elementName,operator,...classNames){
-
     classNames.map((className) => {
         if(operator === undefined){
             if (elementName.classList.contains(className)){
                 elementName.classList.toggle(className)
             }
-        }   else if(operator === "!"){
-                    if (!(elementName.classList.contains(className))){
-                        elementName.classList.toggle(className)
-            }
-        }
+        }       else if(operator === "!"){
+                        if (!(elementName.classList.contains(className))){
+                            elementName.classList.toggle(className)
+                        }
+                    }
     })
 }
 
