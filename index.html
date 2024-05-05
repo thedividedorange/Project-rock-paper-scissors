@@ -1,90 +1,91 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="./style.css" />
 
-        <style>
-        @import url('https://fonts.cdnfonts.com/css/score-board');
-        </style>
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/score-board");
+    </style>
 
-        <title>Rock , Paper, Scissors</title>
-    </head>
+    <title>Rock , Paper, Scissors</title>
+  </head>
 
-    <body>
-        <div class="container">
-            <div id="myModal" class="modal"><span class="close">&times;</span>
-                <div class="modal-content">
-                    <div class="modal-header">Enter your Info below</div>
-                    <div class="modal-info">
-                        <label>Enter Your Name: </label><input id="name" name="playerName" type="text"></input>
-                        <label>Rounds to Play</label>
-                        <select id="totalRounds" name="totalRounds">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                        </select>
-                        <button type="submit" id="submit-form">Start Game</button>
-                    </div>
-                </div>
-            </div> 
-            <div id="scoreboard">
-                <div class="information">Information</div>
-                <div class="players">
-                    <div class="playerLeft">Player One</div>
-                    <div class="playerCenter">Vs</div>
-                    <div class="playerRight">Computer</div>
-                </div>
-                <div class="scores">
-                    <div class="playerLeftImg"></div>
-                    <div class="playerScores">
-                        <div class="leftScore animate">00</div>
-                        <div class="rightScore animate">00</div>
-                    </div>
-                    <div class="playerRightImg"></div>
-                </div>
-                <div class="rounds">Total rounds</div>
+  <body>
+    <div class="container">
+      <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+          <div class="modal-header">Enter your Info below</div>
+          <div class="modal-info">
+            <label>Enter Your Name: </label
+            ><input id="name" name="playerName" type="text" />
+            <label>Rounds to Play</label>
+            <select id="totalRounds" name="totalRounds">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+            <button type="submit" id="submit-form">Start Game</button>
+          </div>
+        </div>
+      </div>
+      <div id="scoreboard">
+        <div class="information">Information</div>
+        <div class="players">
+          <div class="playerLeft">Player One</div>
+          <div class="playerCenter">Vs</div>
+          <div class="playerRight">Computer</div>
+        </div>
+        <div class="scores">
+          <div class="playerLeftImg"></div>
+          <div class="playerScores">
+            <div class="leftScore animate">00</div>
+            <div class="rightScore animate">00</div>
+          </div>
+          <div class="playerRightImg"></div>
+        </div>
+        <div class="rounds">Total rounds</div>
+      </div>
+      <div id="main">
+        <div class="table">
+          <div class="leftPlayerChoices">
+            <div id="buttonGroup" class="button1">
+              <button class="rock">Rock</button>
             </div>
-            <div id ="main">
-                <div class="table">
-                    <div class="leftPlayerChoices">
-                        <div id="buttonGroup" class="button1">
-                            <button class="rock">Rock</button>
-                        </div>
-                        <div id="buttonGroup" class="button2">
-                            <button class="paper">Paper</button>
-                        </div>
-                        <div id="buttonGroup" class="button3">
-                            <button class="scissors">Scissors</button>
-                        </div>                
-                    </div>
-                    <div id="tableSeperator"><span class="gameOutput">Welcome To Rock, paper, Scissors!</span></div>
-                    <div class="rightPlayerChoices">
-                        <div id="buttonGroup" class="button1">
-                            <button class="rock">Rock</button>
-                        </div>
-                        <div id="buttonGroup" class="button2">
-                            <button class="paper">Paper</button>
-                        </div>
-                        <div id="buttonGroup" class="button3">
-                            <button class="scissors">Scissors</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="gameButtonsGroup">
-                    <button class="gameStart">Start Game</button>
-                    <button class="resetGame">Reset Board</button>
-                </div>
-                
+            <div id="buttonGroup" class="button2">
+              <button class="paper">Paper</button>
             </div>
-
+            <div id="buttonGroup" class="button3">
+              <button class="scissors">Scissors</button>
+            </div>
+          </div>
+          <div id="tableSeperator">
+            <span class="gameOutput">Welcome To Rock, paper, Scissors!</span>
+          </div>
+          <div class="rightPlayerChoices">
+            <div id="buttonGroup" class="button1">
+              <button class="rock">Rock</button>
+            </div>
+            <div id="buttonGroup" class="button2">
+              <button class="paper">Paper</button>
+            </div>
+            <div id="buttonGroup" class="button3">
+              <button class="scissors">Scissors</button>
+            </div>
+          </div>
         </div>
 
+        <div id="gameButtonsGroup">
+          <button class="gameStart">Start Game</button>
+          <button class="resetGame">Reset Board</button>
+        </div>
+      </div>
+    </div>
 
-        <script type="text/javascript" src="./script.js"></script>
-    </body>
+    <script type="text/javascript" src="./script.js"></script>
+  </body>
 </html>
